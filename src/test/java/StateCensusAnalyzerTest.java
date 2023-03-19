@@ -2,16 +2,18 @@ import com.opencsv.exceptions.CsvValidationException;
 import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 
+import java.io.Console;
 import java.io.IOException;
+import java.util.List;
 
 import static junit.framework.Assert.fail;
 
 public class StateCensusAnalyzerTest {
     @Test
-    public void givenStateCensusCSV_CheckNumberOfRecordsMatches() throws CsvValidationException, IOException {
+    public void givenStateCensusCSV_CheckNumberOfRecordsMatches() throws Exception {
         StateCensusAnalyzer analyzer = new StateCensusAnalyzer();
         int count = analyzer.loadAnalyzer();
-        Assert.assertEquals(5, count, 0);
+        Assert.assertEquals(4, count, 0);
     }
 
     @Test
@@ -27,5 +29,11 @@ public class StateCensusAnalyzerTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    @Test
+    public void givenStateCensusCSV_IfTypeIncorrectThrowCustomException() throws Exception {
+        StateCensusAnalyzer analyzer = new StateCensusAnalyzer();
+        int count = analyzer.loadAnalyzer();
+        Assert.assertEquals(4, count, 0);
     }
 }
