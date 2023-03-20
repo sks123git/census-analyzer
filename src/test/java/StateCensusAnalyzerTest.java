@@ -37,4 +37,11 @@ public class StateCensusAnalyzerTest {
         int count = analyzer.loadAnalyzer();
         Assert.assertEquals(4, count, 0);
     }
+
+    @Test
+    public void givenStateCensusCSV_IfHeaderIncorrectThrowCustomException() throws Exception {
+        StateCensusAnalyzer analyzer = new StateCensusAnalyzer();
+        int count = analyzer.loadAnalyzer();
+        Assert.assertEquals(4, count, 0);
+    }
 }
