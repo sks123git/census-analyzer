@@ -1,12 +1,7 @@
 import com.opencsv.exceptions.CsvValidationException;
 import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
-
-import java.io.Console;
 import java.io.IOException;
-import java.util.List;
-
-import static junit.framework.Assert.fail;
 
 public class StateCensusAnalyzerTest {
     @Test
@@ -32,6 +27,12 @@ public class StateCensusAnalyzerTest {
     }
     @Test
     public void givenStateCensusCSV_IfTypeIncorrectThrowCustomException() throws Exception {
+        StateCensusAnalyzer analyzer = new StateCensusAnalyzer();
+        int count = analyzer.loadAnalyzer();
+        Assert.assertEquals(4, count, 0);
+    }
+    @Test
+    public void givenStateCensusCSV_IfDelimiterIncorrectThrowCustomException() throws Exception {
         StateCensusAnalyzer analyzer = new StateCensusAnalyzer();
         int count = analyzer.loadAnalyzer();
         Assert.assertEquals(4, count, 0);

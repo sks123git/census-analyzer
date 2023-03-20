@@ -11,22 +11,33 @@ StateCensusAnalyzer {
     public int loadAnalyzer() throws Exception{
         int count = 0,lineNumber = 0;
         ArrayList<Census> censusList = new ArrayList<>();
+        File file;
+        CSVReader reader;
         try {
-            File file = new File("StateCensus.csv");
-            CSVReader reader = new CSVReader(new FileReader(file));
+           try {
+               file = new File("StateCensus.csv");
+               reader = new CSVReader(new FileReader(file));
+           }catch (RuntimeException e){
+               throw new CustomExceptionIncorrectFile();
+           }
+
             String[] line;
-               while ((line = reader.readNext()) != null) {
-                   if(lineNumber == 0) {
-                       lineNumber++;
-                       continue;
-                   }
-                   ++count;
-                   try {
-                       censusList.add(new Census(Integer.valueOf(line[0]), line[1], line[2]));
-                   }catch(NumberFormatException e){
-                       throw new TypeIncorrect();
-                   }
-               }
+              try {
+                  while ((line = reader.readNext()) != null) {
+                      if (lineNumber == 0) {
+                          lineNumber++;
+                          continue;
+                      }
+                      ++count;
+                      try {
+                          censusList.add(new Census(Integer.valueOf(line[0]), line[1], line[2]));
+                      } catch (NumberFormatException e) {
+                          throw new TypeIncorrect();
+                      }
+                  }
+              }catch (com.opencsv.exceptions.CsvMalformedLineException e){
+                  throw new DelimiterIncorrectException();
+              }
             if(count!=censusList.size()-1){
                 throw new CustomExceptionIncorrectFile();
             }
@@ -36,6 +47,8 @@ StateCensusAnalyzer {
             System.out.println(e);
         }catch (TypeIncorrect exp){
             System.out.println(exp);
+        }catch (DelimiterIncorrectException exception){
+            System.out.println(exception);
         }
         return count;
     }
